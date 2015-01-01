@@ -1,0 +1,17 @@
+{
+  "uuid": "ab150ab8-3323-4ec5-a82f-d59879bd0724",
+  "shortName": "pebl_accel_log",
+  "longName": "pebl_accel_log",
+  "companyName": "DBlalock",
+  "versionCode": 1,
+  "versionLabel": "1.0",
+  "watchapp": {
+    "watchface": false
+  },
+  "appKeys": {
+    "dummy": 0
+  },
+  "resources": {
+    "media": []
+  }
+}

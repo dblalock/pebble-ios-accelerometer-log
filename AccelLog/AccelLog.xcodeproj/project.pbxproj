@@ -1,0 +1,519 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		728DBF5F19F4C38D0072BF66 /* ExternalAccessory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 728DBF5E19F4C38D0072BF66 /* ExternalAccessory.framework */; };
+		729E210619F4AF97009AE789 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 729E210519F4AF97009AE789 /* main.m */; };
+		729E210919F4AF97009AE789 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 729E210819F4AF97009AE789 /* AppDelegate.m */; };
+		729E210C19F4AF97009AE789 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 729E210B19F4AF97009AE789 /* ViewController.m */; };
+		729E210F19F4AF97009AE789 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 729E210D19F4AF97009AE789 /* Main.storyboard */; };
+		729E211119F4AF97009AE789 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 729E211019F4AF97009AE789 /* Images.xcassets */; };
+		729E211419F4AF97009AE789 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 729E211219F4AF97009AE789 /* LaunchScreen.xib */; };
+		729E212019F4AF97009AE789 /* AccelLogTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 729E211F19F4AF97009AE789 /* AccelLogTests.m */; };
+		729E212B19F4B493009AE789 /* AccelData.m in Sources */ = {isa = PBXBuildFile; fileRef = 729E212A19F4B493009AE789 /* AccelData.m */; };
+		B77B60B2B870DE8DAB4C6DA9 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 88E10FA56CB174DA36D7DD51 /* libPods.a */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		729E211A19F4AF97009AE789 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 729E20F819F4AF97009AE789 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 729E20FF19F4AF97009AE789;
+			remoteInfo = AccelLog;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		29F3A8A8398D5DE48539C7A4 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		728DBF5E19F4C38D0072BF66 /* ExternalAccessory.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ExternalAccessory.framework; path = System/Library/Frameworks/ExternalAccessory.framework; sourceTree = SDKROOT; };
+		728DBF6019F4C38D0072BF66 /* AccelLog.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = AccelLog.entitlements; sourceTree = "<group>"; };
+		729E210019F4AF97009AE789 /* AccelLog.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AccelLog.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		729E210419F4AF97009AE789 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		729E210519F4AF97009AE789 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		729E210719F4AF97009AE789 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		729E210819F4AF97009AE789 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		729E210A19F4AF97009AE789 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		729E210B19F4AF97009AE789 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		729E210E19F4AF97009AE789 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		729E211019F4AF97009AE789 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		729E211319F4AF97009AE789 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
+		729E211919F4AF97009AE789 /* AccelLogTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AccelLogTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		729E211E19F4AF97009AE789 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		729E211F19F4AF97009AE789 /* AccelLogTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AccelLogTests.m; sourceTree = "<group>"; };
+		729E212919F4B493009AE789 /* AccelData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccelData.h; sourceTree = "<group>"; };
+		729E212A19F4B493009AE789 /* AccelData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccelData.m; sourceTree = "<group>"; };
+		88E10FA56CB174DA36D7DD51 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		DC18CEB5368E0F3AE05B4DAC /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		729E20FD19F4AF97009AE789 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				728DBF5F19F4C38D0072BF66 /* ExternalAccessory.framework in Frameworks */,
+				B77B60B2B870DE8DAB4C6DA9 /* libPods.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		729E211619F4AF97009AE789 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		729E20F719F4AF97009AE789 = {
+			isa = PBXGroup;
+			children = (
+				729E210219F4AF97009AE789 /* AccelLog */,
+				729E211C19F4AF97009AE789 /* AccelLogTests */,
+				729E210119F4AF97009AE789 /* Products */,
+				BA34037124330BEA188BCFCF /* Pods */,
+				B4C82FFE850798F41670B362 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		729E210119F4AF97009AE789 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				729E210019F4AF97009AE789 /* AccelLog.app */,
+				729E211919F4AF97009AE789 /* AccelLogTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		729E210219F4AF97009AE789 /* AccelLog */ = {
+			isa = PBXGroup;
+			children = (
+				728DBF6019F4C38D0072BF66 /* AccelLog.entitlements */,
+				729E210719F4AF97009AE789 /* AppDelegate.h */,
+				729E210819F4AF97009AE789 /* AppDelegate.m */,
+				729E210A19F4AF97009AE789 /* ViewController.h */,
+				729E210B19F4AF97009AE789 /* ViewController.m */,
+				729E212919F4B493009AE789 /* AccelData.h */,
+				729E212A19F4B493009AE789 /* AccelData.m */,
+				729E210D19F4AF97009AE789 /* Main.storyboard */,
+				729E211019F4AF97009AE789 /* Images.xcassets */,
+				729E211219F4AF97009AE789 /* LaunchScreen.xib */,
+				729E210319F4AF97009AE789 /* Supporting Files */,
+			);
+			path = AccelLog;
+			sourceTree = "<group>";
+		};
+		729E210319F4AF97009AE789 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				729E210419F4AF97009AE789 /* Info.plist */,
+				729E210519F4AF97009AE789 /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		729E211C19F4AF97009AE789 /* AccelLogTests */ = {
+			isa = PBXGroup;
+			children = (
+				729E211F19F4AF97009AE789 /* AccelLogTests.m */,
+				729E211D19F4AF97009AE789 /* Supporting Files */,
+			);
+			path = AccelLogTests;
+			sourceTree = "<group>";
+		};
+		729E211D19F4AF97009AE789 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				729E211E19F4AF97009AE789 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		B4C82FFE850798F41670B362 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				728DBF5E19F4C38D0072BF66 /* ExternalAccessory.framework */,
+				88E10FA56CB174DA36D7DD51 /* libPods.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		BA34037124330BEA188BCFCF /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				DC18CEB5368E0F3AE05B4DAC /* Pods.debug.xcconfig */,
+				29F3A8A8398D5DE48539C7A4 /* Pods.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		729E20FF19F4AF97009AE789 /* AccelLog */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 729E212319F4AF97009AE789 /* Build configuration list for PBXNativeTarget "AccelLog" */;
+			buildPhases = (
+				8D18AD800456360AC6C91D91 /* Check Pods Manifest.lock */,
+				729E20FC19F4AF97009AE789 /* Sources */,
+				729E20FD19F4AF97009AE789 /* Frameworks */,
+				729E20FE19F4AF97009AE789 /* Resources */,
+				7CA23E95A69B5571E5A0F209 /* Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = AccelLog;
+			productName = AccelLog;
+			productReference = 729E210019F4AF97009AE789 /* AccelLog.app */;
+			productType = "com.apple.product-type.application";
+		};
+		729E211819F4AF97009AE789 /* AccelLogTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 729E212619F4AF97009AE789 /* Build configuration list for PBXNativeTarget "AccelLogTests" */;
+			buildPhases = (
+				729E211519F4AF97009AE789 /* Sources */,
+				729E211619F4AF97009AE789 /* Frameworks */,
+				729E211719F4AF97009AE789 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				729E211B19F4AF97009AE789 /* PBXTargetDependency */,
+			);
+			name = AccelLogTests;
+			productName = AccelLogTests;
+			productReference = 729E211919F4AF97009AE789 /* AccelLogTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		729E20F819F4AF97009AE789 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0600;
+				ORGANIZATIONNAME = DB;
+				TargetAttributes = {
+					729E20FF19F4AF97009AE789 = {
+						CreatedOnToolsVersion = 6.0.1;
+						DevelopmentTeam = DZDSDMCUYH;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+							com.apple.WAC = {
+								enabled = 1;
+							};
+						};
+					};
+					729E211819F4AF97009AE789 = {
+						CreatedOnToolsVersion = 6.0.1;
+						TestTargetID = 729E20FF19F4AF97009AE789;
+					};
+				};
+			};
+			buildConfigurationList = 729E20FB19F4AF97009AE789 /* Build configuration list for PBXProject "AccelLog" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 729E20F719F4AF97009AE789;
+			productRefGroup = 729E210119F4AF97009AE789 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				729E20FF19F4AF97009AE789 /* AccelLog */,
+				729E211819F4AF97009AE789 /* AccelLogTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		729E20FE19F4AF97009AE789 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				729E210F19F4AF97009AE789 /* Main.storyboard in Resources */,
+				729E211419F4AF97009AE789 /* LaunchScreen.xib in Resources */,
+				729E211119F4AF97009AE789 /* Images.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		729E211719F4AF97009AE789 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		7CA23E95A69B5571E5A0F209 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		8D18AD800456360AC6C91D91 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		729E20FC19F4AF97009AE789 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				729E212B19F4B493009AE789 /* AccelData.m in Sources */,
+				729E210C19F4AF97009AE789 /* ViewController.m in Sources */,
+				729E210919F4AF97009AE789 /* AppDelegate.m in Sources */,
+				729E210619F4AF97009AE789 /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		729E211519F4AF97009AE789 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				729E212019F4AF97009AE789 /* AccelLogTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		729E211B19F4AF97009AE789 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 729E20FF19F4AF97009AE789 /* AccelLog */;
+			targetProxy = 729E211A19F4AF97009AE789 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		729E210D19F4AF97009AE789 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				729E210E19F4AF97009AE789 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		729E211219F4AF97009AE789 /* LaunchScreen.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				729E211319F4AF97009AE789 /* Base */,
+			);
+			name = LaunchScreen.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		729E212119F4AF97009AE789 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		729E212219F4AF97009AE789 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		729E212419F4AF97009AE789 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = DC18CEB5368E0F3AE05B4DAC /* Pods.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = AccelLog/AccelLog.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				INFOPLIST_FILE = AccelLog/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+			};
+			name = Debug;
+		};
+		729E212519F4AF97009AE789 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 29F3A8A8398D5DE48539C7A4 /* Pods.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = AccelLog/AccelLog.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				INFOPLIST_FILE = AccelLog/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+			};
+			name = Release;
+		};
+		729E212719F4AF97009AE789 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = AccelLogTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/AccelLog.app/AccelLog";
+			};
+			name = Debug;
+		};
+		729E212819F4AF97009AE789 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = AccelLogTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/AccelLog.app/AccelLog";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		729E20FB19F4AF97009AE789 /* Build configuration list for PBXProject "AccelLog" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				729E212119F4AF97009AE789 /* Debug */,
+				729E212219F4AF97009AE789 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		729E212319F4AF97009AE789 /* Build configuration list for PBXNativeTarget "AccelLog" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				729E212419F4AF97009AE789 /* Debug */,
+				729E212519F4AF97009AE789 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		729E212619F4AF97009AE789 /* Build configuration list for PBXNativeTarget "AccelLogTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				729E212719F4AF97009AE789 /* Debug */,
+				729E212819F4AF97009AE789 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 729E20F819F4AF97009AE789 /* Project object */;
+}
