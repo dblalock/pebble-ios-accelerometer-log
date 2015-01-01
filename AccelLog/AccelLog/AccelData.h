@@ -13,12 +13,13 @@
 }
 
 + (int) bytesPerObj;
-- (id)initWithBytes:(int8_t*)data;
++ (AccelData*)fromBytes:(const UInt8 *const)data;
+- (id)initWithBytes:(const UInt8 *const)data;
 
 @property int16_t x;
 @property int16_t y;
 @property int16_t z;
-@property int64_t timestamp;
-@property BOOL didVibrate;
+//@property int64_t timestamp;
+//@property BOOL didVibrate;
 
 @end

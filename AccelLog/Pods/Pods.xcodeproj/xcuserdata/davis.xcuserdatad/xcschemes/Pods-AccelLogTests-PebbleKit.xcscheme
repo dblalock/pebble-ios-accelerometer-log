@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "40AAEFC20B294E6E0322A974"
+               BlueprintIdentifier = "7B47D56BED2338D0F6FEC84A"
                BuildableName = "libPods-AccelLogTests-PebbleKit.a"
                BlueprintName = "Pods-AccelLogTests-PebbleKit"
                ReferencedContainer = "container:Pods.xcodeproj">

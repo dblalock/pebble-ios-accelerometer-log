@@ -7,7 +7,9 @@
 //
 
 #import "ViewController.h"
+
 #import <PebbleKit/PebbleKit.h>
+#import "AccelData.h"
 
 @interface ViewController () <PBDataLoggingServiceDelegate>
 
@@ -48,8 +50,9 @@ static int txs = 0;
 	NSLog(@"%@", msg);
 	[_textView setText:msg];
 	if (numberOfItems >= 6) {
+		AccelData* data = [AccelData fromBytes:bytes];
 		NSString* str = [NSString stringWithFormat:@"x,y,z = %hd, %hd %hd",
-						 (short)bytes[0], (short)bytes[2], (short)bytes[4]];
+						 data.x, data.y, data.z];
 		NSLog(@"%@",str);
 	}
 	return YES;
