@@ -1,4 +1,21 @@
+
+// NOTES
+// -Sending byte arrays results in almost no data being sent on iOS; for
+//  some reason sending individual bytes as int8_t seems to work though
+//    -although I'm not positive everything is getting through here either
+// -This currently sends accelerometer values as int8_ts at 20Hz; this 
+//  means we're sending 60 bytes/sec
+//    -there's *maybe* a *tiny* amount of info loss from this relative to
+//    full bit depth at 50Hz+, but since the ADC is only 10 bits to begin
+//    with and this still produces different values over time when left
+//    at rest on a stationary object, it's unlikely we're really losing
+//    anything but noise (and we're saving tons of BLE transmits)
+
 #include <pebble.h>
+
+// ================================================================
+// Constants
+// ================================================================
 
 // set these to mess with stuff
 // #define SAMPLE_RATE ACCEL_SAMPLING_25HZ
@@ -24,6 +41,10 @@
 #define BUFFER_END_PADDING 3
 #define BUFFER_PAD_VALUE 0
 
+// ================================================================
+// Static vars
+// ================================================================
+
 static Window *window;
 static TextLayer *text_layer;
 static char s_buffer[128];
@@ -35,11 +56,19 @@ static BUFFER_T data_buff[BUFFER_LEN + BUFFER_END_PADDING];
 static int shouldShowAccelData = 0;
 static int showingAccelData = 0;
 
+// ================================================================
+// Utility funcs
+// ================================================================
+
 static inline BUFFER_T quantize(int16_t x) {
   int16_t shifted = x >> BUFFER_QUANTIZE_SHIFT;
   int16_t masked = shifted & BUFFER_QUANTIZE_MASK;
   return (BUFFER_T) masked;
 }
+
+// ================================================================
+// Displaying crap
+// ================================================================
 
 static uint8_t justStarted = 1;
 static void show_time() {
@@ -88,6 +117,10 @@ static void show_accel_data(AccelRawData* data) {
   text_layer_set_text(text_layer, s_buffer);
 }
 
+// ================================================================
+// UI Callbacks
+// ================================================================
+
 static void select_click_handler(ClickRecognizerRef recognizer, void *context) {
   if (shouldShowAccelData) {
     shouldShowAccelData = 0;
@@ -104,6 +137,13 @@ static void up_click_handler(ClickRecognizerRef recognizer, void *context) {
 static void down_click_handler(ClickRecognizerRef recognizer, void *context) {
   // text_layer_set_text(text_layer, "down");
 }
+
+// ================================================================
+// Accelerometer callback
+// ================================================================
+// this is complicated because it's flexible wrt sampling rates, buffer
+// sizes, etc; also because I unrolled the loops to do FIR filters with
+// various numbers of taps
 
 #ifdef RAW
 static void accel_raw_data_handler(AccelRawData *data, uint32_t num_samples, uint64_t timestamp) {
@@ -265,6 +305,9 @@ static void accel_data_handler(AccelData *data, uint32_t num_samples) {
   }
 }
 
+// ================================================================
+// Initialization / Destruction
+// ================================================================
 static void click_config_provider(void *context) {
   window_single_click_subscribe(BUTTON_ID_SELECT, select_click_handler);
   window_single_click_subscribe(BUTTON_ID_UP, up_click_handler);
@@ -297,16 +340,16 @@ static void init(void) {
   // app_comm_set_sniff_interval(SNIFF_INTERVAL_REDUCED); //faster tx, more power
 
   data_log = data_logging_create(
-  /* tag */          0x5,
+    0x5,   //arbitrary "tag" to identify data log
 #ifdef BYTE_ARRAY
-  /* DataLogType */  DATA_LOGGING_BYTE_ARRAY,
-  /* length */       sizeof(BUFFER_T)*BUFFER_LEN,
+    DATA_LOGGING_BYTE_ARRAY,      // log type; ios dislikes this one 
+    sizeof(BUFFER_T)*BUFFER_LEN,  // size of each log "item"
 #else
-  /* DataLogType */   DATA_LOGGING_INT,
-  /* length */        sizeof(BUFFER_T),
+    DATA_LOGGING_INT,             // log type
+    sizeof(BUFFER_T),             // size of each item
 #endif
-  // /* resume */       true );
-  /* resume */       false );
+    true );                       // append to old logs with same tag
+    // false );                   // overwrite old logs with same tag
 
 #ifdef RAW
   accel_raw_data_service_subscribe(SAMPLE_BATCH, &accel_raw_data_handler);
@@ -322,12 +365,13 @@ static void deinit(void) {
   // accel_raw_data_service_unsubscribe();  //not a thing, apparently
 // #else
   accel_data_service_unsubscribe();
-// #endif
-// #ifndef SHOW_ACCEL
   tick_timer_service_unsubscribe();
-// #endif
   window_destroy(window);
 }
+
+// ================================================================
+// Main
+// ================================================================
 
 int main(void) {
   init();
