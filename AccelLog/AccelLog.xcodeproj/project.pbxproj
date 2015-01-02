@@ -16,6 +16,7 @@
 		729E211419F4AF97009AE789 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 729E211219F4AF97009AE789 /* LaunchScreen.xib */; };
 		729E212019F4AF97009AE789 /* AccelLogTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 729E211F19F4AF97009AE789 /* AccelLogTests.m */; };
 		729E212B19F4B493009AE789 /* AccelData.m in Sources */ = {isa = PBXBuildFile; fileRef = 729E212A19F4B493009AE789 /* AccelData.m */; };
+		72CAD1111A56280E00CE6DB0 /* FileUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 72CAD1101A56280E00CE6DB0 /* FileUtils.m */; };
 		B77B60B2B870DE8DAB4C6DA9 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 88E10FA56CB174DA36D7DD51 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -48,6 +49,8 @@
 		729E211F19F4AF97009AE789 /* AccelLogTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AccelLogTests.m; sourceTree = "<group>"; };
 		729E212919F4B493009AE789 /* AccelData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccelData.h; sourceTree = "<group>"; };
 		729E212A19F4B493009AE789 /* AccelData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccelData.m; sourceTree = "<group>"; };
+		72CAD10F1A56280E00CE6DB0 /* FileUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileUtils.h; sourceTree = "<group>"; };
+		72CAD1101A56280E00CE6DB0 /* FileUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileUtils.m; sourceTree = "<group>"; };
 		88E10FA56CB174DA36D7DD51 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		DC18CEB5368E0F3AE05B4DAC /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -103,6 +106,8 @@
 				729E212919F4B493009AE789 /* AccelData.h */,
 				729E212A19F4B493009AE789 /* AccelData.m */,
 				729E210D19F4AF97009AE789 /* Main.storyboard */,
+				72CAD10F1A56280E00CE6DB0 /* FileUtils.h */,
+				72CAD1101A56280E00CE6DB0 /* FileUtils.m */,
 				729E211019F4AF97009AE789 /* Images.xcassets */,
 				729E211219F4AF97009AE789 /* LaunchScreen.xib */,
 				729E210319F4AF97009AE789 /* Supporting Files */,
@@ -298,6 +303,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				72CAD1111A56280E00CE6DB0 /* FileUtils.m in Sources */,
 				729E212B19F4B493009AE789 /* AccelData.m in Sources */,
 				729E210C19F4AF97009AE789 /* ViewController.m in Sources */,
 				729E210919F4AF97009AE789 /* AppDelegate.m in Sources */,

@@ -11,12 +11,22 @@
 #import <PebbleKit/PebbleKit.h>
 #import "AccelData.h"
 
+//#define POLL
+
 @interface ViewController () <PBDataLoggingServiceDelegate>
 
 @end
 
 @implementation ViewController {
 	UITextView *_textView;
+	NSTimer *_pollTimer;
+}
+
+- (void) pollForData:(NSTimer*)timer {
+#ifdef POLL
+	NSLog(@"polling for data...");
+	[[[PBPebbleCentral defaultCentral] dataLoggingService] pollForData];
+#endif
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
@@ -37,6 +47,11 @@
 	_textView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
 	_textView.autoresizesSubviews = YES;
 	[self.view addSubview:_textView];
+	
+	_pollTimer = [NSTimer scheduledTimerWithTimeInterval:30.0
+												  target:self
+												selector:@selector(pollForData:)
+												userInfo:nil repeats:YES];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -44,16 +59,48 @@
 	// Dispose of any resources that can be recreated.
 }
 
-static int txs = 0;
-- (BOOL) dataLoggingService:(PBDataLoggingService *)service hasByteArrays:(const UInt8 *const)bytes numberOfItems:(UInt16)numberOfItems forDataLoggingSession:(PBDataLoggingSessionMetadata *)session {
-	NSString* msg = [NSString stringWithFormat:@"Received %u bytes, tx %d", numberOfItems, txs++];
+static int rxs = 0;
+static long totalBytes = 0;
+- (BOOL) dataLoggingService:(PBDataLoggingService *)service
+			  hasByteArrays:(const UInt8 *const)bytes
+			  numberOfItems:(UInt16)numberOfItems
+	  forDataLoggingSession:(PBDataLoggingSessionMetadata *)session {
+	
+	totalBytes += numberOfItems;
+	NSString* msg = [NSString stringWithFormat:@"Received %u bytes, tx #%d", numberOfItems, ++rxs];
+	msg = [msg stringByAppendingString:[NSString stringWithFormat:@"\ntotal bytes ever: %ld", totalBytes]];
 	NSLog(@"%@", msg);
 	[_textView setText:msg];
-	if (numberOfItems >= 6) {
-		AccelData* data = [AccelData fromBytes:bytes];
-		NSString* str = [NSString stringWithFormat:@"x,y,z = %hd, %hd %hd",
+	
+	if (numberOfItems >= 3) {
+		AccelData* data = [AccelData fromUInt8s:bytes];
+		NSString* str = [NSString stringWithFormat:@"\nx,y,z = %hhd, %hhd %hhd",
 						 data.x, data.y, data.z];
 		NSLog(@"%@",str);
+		NSLog(@"total bytes: %ld", totalBytes);
+		[_textView setText:[[_textView text] stringByAppendingString:str]];
+	}
+	return YES;
+}
+
+- (BOOL) dataLoggingService:(PBDataLoggingService *)service
+				  hasSInt8s:(const SInt8 *const)array
+			  numberOfItems:(UInt16)numberOfItems
+	  forDataLoggingSession:(PBDataLoggingSessionMetadata *)session {
+
+	totalBytes += numberOfItems;
+	NSString* msg = [NSString stringWithFormat:@"Received %u ints, tx #%d", numberOfItems, ++rxs];
+	msg = [msg stringByAppendingString:[NSString stringWithFormat:@"\ntotal bytes ever: %ld", totalBytes]];
+	NSLog(@"%@", msg);
+	[_textView setText:msg];
+
+	if (numberOfItems >= 3) {
+		AccelData* data = [AccelData fromInt8s:array];
+		NSString* str = [NSString stringWithFormat:@"\nx,y,z = %hhd, %hhd %hhd",
+						 data.x, data.y, data.z];
+		NSLog(@"%@", str);
+		NSLog(@"total bytes: %ld", totalBytes);
+		[_textView setText:[[_textView text] stringByAppendingString:str]];
 	}
 	return YES;
 }
