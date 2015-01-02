@@ -10,6 +10,7 @@
 
 #import <PebbleKit/PebbleKit.h>
 #import "AccelData.h"
+#import "FileUtils.h"
 
 //#define POLL
 
@@ -57,6 +58,24 @@
 - (void)didReceiveMemoryWarning {
 	[super didReceiveMemoryWarning];
 	// Dispose of any resources that can be recreated.
+}
+
+//=================================================================
+#pragma mark Logging Stuff
+//=================================================================
+
+int64_t currentTimeMs() {
+	return [@(floor([NSDate timeIntervalSinceReferenceDate] * 1000)) longLongValue];
+}
+
+-(void) writeSamples:(const SInt8 *const)array
+	   numberOfItems:(uint)len {
+	NSString* fileName = [NSString stringWithFormat:@"%lld.csv",
+						  currentTimeMs()];
+	for (unsigned int i = 0; i < len; i++) {
+		NSString* line = [NSString stringWithFormat:@"%hhd\n", array[i]];
+		[FileUtils appendString:line toFile:fileName];
+	}
 }
 
 static int rxs = 0;

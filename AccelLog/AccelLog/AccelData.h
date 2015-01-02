@@ -8,18 +8,28 @@
 
 #import <Foundation/Foundation.h>
 
+#define BYTES_PER_VALUE 1
+
 @interface AccelData : NSObject {
 
 }
 
 + (int) bytesPerObj;
-+ (AccelData*)fromBytes:(const UInt8 *const)data;
-- (id)initWithBytes:(const UInt8 *const)data;
++ (int64_t) currentTimeStamp;
++ (AccelData*)fromUInt8s:(const UInt8 *const)data;
++ (AccelData*)fromInt8s:(const SInt8 *const)data;
+- (id)initWithBytes:(const UInt8 *const)data timestamp:(int64_t)time;
 
+#if BYTES_PER_VALUE == 2
 @property int16_t x;
 @property int16_t y;
 @property int16_t z;
-//@property int64_t timestamp;
+#else
+@property int8_t x;
+@property int8_t y;
+@property int8_t z;
+#endif
+@property int64_t timestamp;
 //@property BOOL didVibrate;
 
 @end

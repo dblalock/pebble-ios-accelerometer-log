@@ -4,14 +4,13 @@
 // #define SAMPLE_RATE ACCEL_SAMPLING_25HZ
 #define SAMPLE_RATE ACCEL_SAMPLING_100HZ  // *not* 100, just a flag
 #define SAMPLE_BATCH 20     // must be a multiple of DOWNSAMPLE_BY
-#define BUFFER_SAMPLE_RATE 25
-#define DOWNSAMPLE_BY 4
+#define BUFFER_SAMPLE_RATE 20
 #define SAMPLE_ELEMENTS 3
 // #define BUFFER_T int16_t
 #define BUFFER_T int8_t
 #define BUFFER_QUANTIZE_SHIFT 4
 #define BUFFER_QUANTIZE_MASK 0xff
-// #define BYTE_ARRAY   //use byte array instead of ints
+// #define BYTE_ARRAY   //use byte array instead of ints; doesn't work for no reason
 #define RAW       // use just x,y,z, not time step and vibrate
 // #define SHOW_ACCEL //otherwise show time
 
@@ -19,6 +18,7 @@
 // #define SAMPLE_BATCH (SAMPLE_RATE>25?25:SAMPLE_RATE) // TX 1/sec, but max 25
 
 // derived constants
+#define DOWNSAMPLE_BY (100 / BUFFER_SAMPLE_RATE)  //assumes 100Hz raw sampling
 #define DOWNSAMPLE (DOWNSAMPLE_BY > 1)
 #define BUFFER_LEN (BUFFER_SAMPLE_RATE * SAMPLE_ELEMENTS)
 #define BUFFER_END_PADDING 3
@@ -27,8 +27,13 @@
 static Window *window;
 static TextLayer *text_layer;
 static char s_buffer[128];
+static char time_buffer[128];
+static uint32_t totalBytes = 0;
 static DataLoggingSessionRef data_log;
 static BUFFER_T data_buff[BUFFER_LEN + BUFFER_END_PADDING];
+
+static int shouldShowAccelData = 0;
+static int showingAccelData = 0;
 
 static inline BUFFER_T quantize(int16_t x) {
   int16_t shifted = x >> BUFFER_QUANTIZE_SHIFT;
@@ -36,19 +41,70 @@ static inline BUFFER_T quantize(int16_t x) {
   return (BUFFER_T) masked;
 }
 
+static uint8_t justStarted = 1;
+static void show_time() {
+  if (showingAccelData || justStarted) {
+    text_layer_set_font(text_layer, fonts_get_system_font(FONT_KEY_ROBOTO_BOLD_SUBSET_49));
+    text_layer_set_text(text_layer, time_buffer);
+    justStarted = 0;
+  }
+  showingAccelData = 0;
+}
+
+static void handle_tick(struct tm *tick_time, TimeUnits units_changed) {
+  snprintf(time_buffer, 16, "\n%02d:%02d", tick_time->tm_hour, tick_time->tm_min);
+  if (! shouldShowAccelData) {
+    show_time();
+  }
+}
+
+static void show_accel_data(AccelRawData* data) {
+  if (! showingAccelData) {
+    text_layer_set_font(text_layer, fonts_get_system_font(FONT_KEY_GOTHIC_24));
+  }
+  showingAccelData = 1;
+
+  snprintf(s_buffer, sizeof(s_buffer),
+    "SampRate=%d\n  X, Y, Z\n0 %d,%d,%d\n1 %d,%d,%d\n2 %d,%d,%d\nbytes: %ld",
+    (int)BUFFER_SAMPLE_RATE,
+
+  #if DOWNSAMPLE
+    data_buff[0],
+    data_buff[1],
+    data_buff[2],
+    data_buff[3],
+    data_buff[4],
+    data_buff[5],
+    data_buff[6],
+    data_buff[7],
+    data_buff[8],
+  #else
+    data[0].x, data[0].y, data[0].z,
+    data[1].x, data[1].y, data[1].z,
+    data[2].x, data[2].y, data[2].z,
+  #endif
+    totalBytes
+  );
+  text_layer_set_text(text_layer, s_buffer);
+}
+
 static void select_click_handler(ClickRecognizerRef recognizer, void *context) {
-  text_layer_set_text(text_layer, "Select");
+  if (shouldShowAccelData) {
+    shouldShowAccelData = 0;
+    show_time();
+  } else {
+    shouldShowAccelData = 1;
+  }
 }
 
 static void up_click_handler(ClickRecognizerRef recognizer, void *context) {
-  text_layer_set_text(text_layer, "Up");
+  // text_layer_set_text(text_layer, "up");
 }
 
 static void down_click_handler(ClickRecognizerRef recognizer, void *context) {
-  text_layer_set_text(text_layer, "Down");
+  // text_layer_set_text(text_layer, "down");
 }
 
-static uint32_t totalBytes = 0;
 #ifdef RAW
 static void accel_raw_data_handler(AccelRawData *data, uint32_t num_samples, uint64_t timestamp) {
 #else
@@ -59,13 +115,35 @@ static void accel_data_handler(AccelData *data, uint32_t num_samples) {
   // downsample if necessary
   //-------------------------------
 #if DOWNSAMPLE
-  // crude low-pass filter; ideally have an IIR with history that persists
-  // across invocations (or at least add FIR coeffs in the inner loop)
+  // simple IIR filters; ideally use IIR
   static int32_t x_avg, y_avg, z_avg;
   static uint8_t buff_idx = 0;
   for (uint16_t i = 0; i < num_samples; i += DOWNSAMPLE_BY) {
     x_avg = 0; y_avg = 0; z_avg = 0;
-  #if DOWNSAMPLE_BY == 4
+  #if DOWNSAMPLE_BY == 5
+    static int8_t shifts[] = {5,2,1,2,5}; // 1/32, 1/4, 1/2, 1/4, 1/32
+    // it's basically identical to the coeffs for:
+    //  scipy.signal.firwin(5, cutoff = 0.2, window = "hamming")
+
+    x_avg +=  data[i+0].x >> shifts[0];
+    x_avg += (data[i+1].x >> shifts[1]) - (data[i+1].x >> 6);
+    x_avg += (data[i+2].x >> shifts[2]) - (data[i+2].x >> 5);
+    x_avg += (data[i+3].x >> shifts[3]) - (data[i+3].x >> 6);
+    x_avg +=  data[i+4].x >> shifts[4];
+
+    y_avg +=  data[i+0].y >> shifts[0];
+    y_avg += (data[i+1].y >> shifts[1]) - (data[i+1].y >> 6);
+    y_avg += (data[i+2].y >> shifts[2]) - (data[i+2].y >> 5);
+    y_avg += (data[i+3].y >> shifts[3]) - (data[i+3].y >> 6);
+    y_avg +=  data[i+4].y >> shifts[4];
+
+    x_avg +=  data[i+0].z >> shifts[0];
+    z_avg += (data[i+1].z >> shifts[1]) - (data[i+1].z >> 6);
+    z_avg += (data[i+2].z >> shifts[2]) - (data[i+2].z >> 5);
+    z_avg += (data[i+3].z >> shifts[3]) - (data[i+3].z >> 6);
+    z_avg +=  data[i+4].z >> shifts[4];
+
+  #elif DOWNSAMPLE_BY == 4
     static int8_t shifts[] = {5,1,1,5}; // 1/32, 1/2, 1/2, 1/32
     // note that we subtract off the small values so the total
     // magnitude is 1; this is also closer to the FIR coeffs you
@@ -114,9 +192,10 @@ static void accel_data_handler(AccelData *data, uint32_t num_samples) {
   } //for each sample
 
   // if we're downsampling, the buffer will only be full (and thus ready
-  // to transmit) every few invocations
-  snprintf(s_buffer, 64, "downsample: buff idx: %d\nnumSamples: %ld\nbuffLen: %d", 
-    buff_idx, num_samples, BUFFER_LEN);
+  // to transmit) every few invocations, since the max number of samples
+  // is capped at 25 (and we use 20); eg, 20 raw samples -> 4 buff samples
+  // snprintf(s_buffer, 64, "downsample: buff idx: %d\nnumSamples: %ld\nbuffLen: %d", 
+  //   buff_idx, num_samples, BUFFER_LEN);
   if (buff_idx < BUFFER_LEN) {
     return;
   }
@@ -135,32 +214,9 @@ static void accel_data_handler(AccelData *data, uint32_t num_samples) {
   //-------------------------------
   // print data
   //-------------------------------
-#ifdef SHOW_ACCEL
-  //Show the data
-  snprintf(s_buffer, sizeof(s_buffer),
-    "downsample=%d\nX,Y,Z\n0 %d,%d,%d\n1 %d,%d,%d\n2 %d,%d,%d\nbytes: %ld",
-    // (int)num_samples,
-    (int)DOWNSAMPLE_BY,
-    
-  #if DOWNSAMPLE
-    data_buff[0],
-    data_buff[1],
-    data_buff[2],
-    data_buff[3],
-    data_buff[4],
-    data_buff[5],
-    data_buff[6],
-    data_buff[7],
-    data_buff[8],
-  #else
-    data[0].x, data[0].y, data[0].z,
-    data[1].x, data[1].y, data[1].z,
-    data[2].x, data[2].y, data[2].z,
-  #endif
-    totalBytes
-  );
-  text_layer_set_text(text_layer, s_buffer);
-#endif
+  if (shouldShowAccelData) {
+    show_accel_data(data);
+  }
 
   //-------------------------------
   // log data
@@ -215,21 +271,11 @@ static void click_config_provider(void *context) {
   window_single_click_subscribe(BUTTON_ID_DOWN, down_click_handler);
 }
 
-static void handle_tick(struct tm *tick_time, TimeUnits units_changed) {
-    snprintf(s_buffer, 16, "\n%02d:%02d", tick_time->tm_hour, tick_time->tm_min);
-    text_layer_set_text(text_layer, s_buffer);
-}
-
 static void window_load(Window *window) {
   Layer *window_layer = window_get_root_layer(window);
   GRect bounds = layer_get_bounds(window_layer);
 
   text_layer = text_layer_create(GRect(5, 0, bounds.size.w - 10, bounds.size.h));
-#ifdef SHOW_ACCEL
-  text_layer_set_font(text_layer, fonts_get_system_font(FONT_KEY_GOTHIC_24));
-#else
-  text_layer_set_font(text_layer, fonts_get_system_font(FONT_KEY_ROBOTO_BOLD_SUBSET_49));
-#endif
   text_layer_set_overflow_mode(text_layer, GTextOverflowModeWordWrap);
   layer_add_child(window_layer, text_layer_get_layer(text_layer));
 }
@@ -247,25 +293,21 @@ static void init(void) {
   });
   const bool animated = true;
   window_stack_push(window, animated);
-  // app_comm_set_sniff_interval(SNIFF_INTERVAL_REDUCED);
-
-#ifndef SHOW_ACCEL
   tick_timer_service_subscribe(MINUTE_UNIT, &handle_tick);
-#endif
+  // app_comm_set_sniff_interval(SNIFF_INTERVAL_REDUCED); //faster tx, more power
 
   data_log = data_logging_create(
   /* tag */          0x5,
 #ifdef BYTE_ARRAY
   /* DataLogType */  DATA_LOGGING_BYTE_ARRAY,
   /* length */       sizeof(BUFFER_T)*BUFFER_LEN,
-  // /* length */       sizeof(BUFFER_T),
 #else
   /* DataLogType */   DATA_LOGGING_INT,
   /* length */        sizeof(BUFFER_T),
 #endif
   // /* resume */       true );
   /* resume */       false );
-  
+
 #ifdef RAW
   accel_raw_data_service_subscribe(SAMPLE_BATCH, &accel_raw_data_handler);
 #else
@@ -281,9 +323,9 @@ static void deinit(void) {
 // #else
   accel_data_service_unsubscribe();
 // #endif
-#ifndef SHOW_ACCEL
+// #ifndef SHOW_ACCEL
   tick_timer_service_unsubscribe();
-#endif
+// #endif
   window_destroy(window);
 }
 
