@@ -39,7 +39,8 @@
 #define DOWNSAMPLE (DOWNSAMPLE_BY > 1)
 #define BUFFER_LEN (BUFFER_SAMPLE_RATE * SAMPLE_ELEMENTS)
 #define BUFFER_END_PADDING 3
-#define BUFFER_PAD_VALUE 0
+#define BUFFER_PAD_VALUE (-128)
+#define BUFFER_LEN_WITH_PADDING (BUFFER_LEN + BUFFER_END_PADDING)
 
 // ================================================================
 // Static vars
@@ -51,7 +52,7 @@ static char s_buffer[128];
 static char time_buffer[128];
 static uint32_t totalBytes = 0;
 static DataLoggingSessionRef data_log;
-static BUFFER_T data_buff[BUFFER_LEN + BUFFER_END_PADDING];
+static BUFFER_T data_buff[BUFFER_LEN_WITH_PADDING];
 
 static int shouldShowAccelData = 0;
 static int showingAccelData = 0;
@@ -242,9 +243,9 @@ static void accel_data_handler(AccelData *data, uint32_t num_samples) {
   //append some marker values so we know where this block ended; if 
   //we don't have this, we have no way of recovering if an element gets
   //lost
-  data_buff[buff_idx++] = BUFFER_PAD_VALUE;
-  data_buff[buff_idx++] = BUFFER_PAD_VALUE;
-  data_buff[buff_idx++] = BUFFER_PAD_VALUE;
+  for (uint8_t i = 0; i < BUFFER_END_PADDING; i++) {
+    data_buff[buff_idx++] = BUFFER_PAD_VALUE;
+  }
   buff_idx = 0;
   totalBytes += BUFFER_LEN * sizeof(BUFFER_T);
 #else
@@ -270,7 +271,7 @@ static void accel_data_handler(AccelData *data, uint32_t num_samples) {
   #endif
 #else
   #if DOWNSAMPLE
-  DataLoggingResult r = data_logging_log(data_log, &data_buff[0], BUFFER_LEN);
+  DataLoggingResult r = data_logging_log(data_log, &data_buff[0], BUFFER_LEN_WITH_PADDING);
   #else
   DataLoggingResult r = data_logging_log(data_log, data, 3 * num_samples);
   #endif
@@ -343,7 +344,7 @@ static void init(void) {
     0x5,   //arbitrary "tag" to identify data log
 #ifdef BYTE_ARRAY
     DATA_LOGGING_BYTE_ARRAY,      // log type; ios dislikes this one 
-    sizeof(BUFFER_T)*BUFFER_LEN,  // size of each log "item"
+    sizeof(BUFFER_T) * BUFFER_LEN_WITH_PADDING,  // size of each log "item"
 #else
     DATA_LOGGING_INT,             // log type
     sizeof(BUFFER_T),             // size of each item

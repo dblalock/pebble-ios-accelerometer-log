@@ -72,35 +72,37 @@ int64_t currentTimeMs() {
 	   numberOfItems:(uint)len {
 	NSString* fileName = [NSString stringWithFormat:@"%lld.csv",
 						  currentTimeMs()];
-	for (unsigned int i = 0; i < len; i++) {
-		NSString* line = [NSString stringWithFormat:@"%hhd\n", array[i]];
-		[FileUtils appendString:line toFile:fileName];
+	NSMutableString * str = [NSMutableString string];
+	for (int i = 0; i<len; i++) {
+		[str appendFormat:@"%hhd\n", array[i]];
 	}
+	[FileUtils appendString:str toFile:fileName];
 }
 
 static int rxs = 0;
 static long totalBytes = 0;
-- (BOOL) dataLoggingService:(PBDataLoggingService *)service
-			  hasByteArrays:(const UInt8 *const)bytes
-			  numberOfItems:(UInt16)numberOfItems
-	  forDataLoggingSession:(PBDataLoggingSessionMetadata *)session {
-	
-	totalBytes += numberOfItems;
-	NSString* msg = [NSString stringWithFormat:@"Received %u bytes, tx #%d", numberOfItems, ++rxs];
-	msg = [msg stringByAppendingString:[NSString stringWithFormat:@"\ntotal bytes ever: %ld", totalBytes]];
-	NSLog(@"%@", msg);
-	[_textView setText:msg];
-	
-	if (numberOfItems >= 3) {
-		AccelData* data = [AccelData fromUInt8s:bytes];
-		NSString* str = [NSString stringWithFormat:@"\nx,y,z = %hhd, %hhd %hhd",
-						 data.x, data.y, data.z];
-		NSLog(@"%@",str);
-		NSLog(@"total bytes: %ld", totalBytes);
-		[_textView setText:[[_textView text] stringByAppendingString:str]];
-	}
-	return YES;
-}
+//- (BOOL) dataLoggingService:(PBDataLoggingService *)service
+//			  hasByteArrays:(const UInt8 *const)bytes
+//			  numberOfItems:(UInt16)numberOfItems
+//	  forDataLoggingSession:(PBDataLoggingSessionMetadata *)session {
+//	
+//	totalBytes += numberOfItems;
+//	NSString* msg = [NSString stringWithFormat:@"Received %u bytes, tx #%d", numberOfItems, ++rxs];
+//	msg = [msg stringByAppendingString:[NSString stringWithFormat:@"\ntotal bytes ever: %ld", totalBytes]];
+//	NSLog(@"%@", msg);
+//	[_textView setText:msg];
+//	
+//	if (numberOfItems >= 3) {
+//		AccelData* data = [AccelData fromUInt8s:bytes];
+//		NSString* str = [NSString stringWithFormat:@"\nx,y,z = %hhd, %hhd %hhd",
+//						 data.x, data.y, data.z];
+//		NSLog(@"%@",str);
+//		NSLog(@"total bytes: %ld", totalBytes);
+//		[_textView setText:[[_textView text] stringByAppendingString:str]];
+//	}
+//	
+//	return YES;
+//}
 
 - (BOOL) dataLoggingService:(PBDataLoggingService *)service
 				  hasSInt8s:(const SInt8 *const)array
@@ -121,6 +123,9 @@ static long totalBytes = 0;
 		NSLog(@"total bytes: %ld", totalBytes);
 		[_textView setText:[[_textView text] stringByAppendingString:str]];
 	}
+	
+	[self writeSamples:array numberOfItems:numberOfItems];
+	
 	return YES;
 }
 
