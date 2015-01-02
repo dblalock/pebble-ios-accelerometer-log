@@ -62,6 +62,11 @@ static int showingAccelData = 0;
 // ================================================================
 
 static inline BUFFER_T quantize(int16_t x) {
+  if (x > (127 << BUFFER_QUANTIZE_SHIFT)) {
+    return 127;
+  } else if (x < (-128 << BUFFER_QUANTIZE_SHIFT)) {
+    return -128;
+  }
   int16_t shifted = x >> BUFFER_QUANTIZE_SHIFT;
   int16_t masked = shifted & BUFFER_QUANTIZE_MASK;
   return (BUFFER_T) masked;
@@ -178,7 +183,7 @@ static void accel_data_handler(AccelData *data, uint32_t num_samples) {
     y_avg += (data[i+3].y >> shifts[3]) - (data[i+3].y >> 6);
     y_avg +=  data[i+4].y >> shifts[4];
 
-    x_avg +=  data[i+0].z >> shifts[0];
+    z_avg +=  data[i+0].z >> shifts[0];
     z_avg += (data[i+1].z >> shifts[1]) - (data[i+1].z >> 6);
     z_avg += (data[i+2].z >> shifts[2]) - (data[i+2].z >> 5);
     z_avg += (data[i+3].z >> shifts[3]) - (data[i+3].z >> 6);
