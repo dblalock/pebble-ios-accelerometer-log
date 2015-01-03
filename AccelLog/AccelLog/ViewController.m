@@ -12,7 +12,7 @@
 #import "AccelData.h"
 #import "FileUtils.h"
 
-//#define POLL
+#define POLL
 
 @interface ViewController () <PBDataLoggingServiceDelegate>
 
@@ -114,7 +114,7 @@ static long totalBytes = 0;
 	msg = [msg stringByAppendingString:[NSString stringWithFormat:@"\ntotal bytes ever: %ld", totalBytes]];
 	NSLog(@"%@", msg);
 	[_textView setText:msg];
-
+ 
 	if (numberOfItems >= 3) {
 		AccelData* data = [AccelData fromInt8s:array];
 		NSString* str = [NSString stringWithFormat:@"\nx,y,z = %hhd, %hhd %hhd",
